@@ -131,6 +131,7 @@
                     color: var(--text);
                 }
 
+        /* HERO */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -150,47 +151,52 @@
             pointer-events: none;
         }
 
+        /* TEXT LEFT, PHOTO RIGHT */
         .hero-content {
             display: flex;
             flex-direction: row;
-            align-items: center;
+            align-items: flex-start;
+            justify-content: space-between;
             gap: 60px;
+            width: 100%;
         }
 
         .hero-text {
             flex: 1;
         }
 
-        /* ── PHOTO FIX ── */
+        /* PHOTO on the right */
         .photo-wrapper {
             position: relative;
-            width: 160px;
-            height: 160px;
+            width: 220px;
+            height: 220px;
             flex-shrink: 0;
+            margin-top: 80px;
         }
 
             .photo-wrapper img {
-                width: 160px;
-                height: 160px;
+                width: 220px;
+                height: 220px;
                 border-radius: 50%;
                 object-fit: cover;
                 object-position: center top;
                 border: 2px solid var(--accent);
-                box-shadow: 0 0 0 4px rgba(108,99,255,0.15);
+                box-shadow: 0 0 0 6px rgba(108,99,255,0.12);
                 display: block;
             }
 
         .photo-dot {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 16px;
-            height: 16px;
+            bottom: 12px;
+            right: 12px;
+            width: 18px;
+            height: 18px;
             background: var(--green);
             border-radius: 50%;
             border: 3px solid var(--bg);
         }
 
+        /* RESTORED large fonts */
         .hero-eyebrow {
             font-family: var(--font-mono);
             font-size: 12px;
@@ -887,7 +893,7 @@
 
         @media (max-width: 768px) {
             .hero-content {
-                flex-direction: column;
+                flex-direction: column-reverse;
                 align-items: flex-start;
                 gap: 32px;
             }
@@ -921,6 +927,16 @@
             .hero {
                 padding: 100px 0 60px;
             }
+
+            .photo-wrapper {
+                width: 140px;
+                height: 140px;
+            }
+
+                .photo-wrapper img {
+                    width: 140px;
+                    height: 140px;
+                }
         }
     </style>
 </head>
@@ -943,10 +959,8 @@
         <div class="hero-glow"></div>
         <div class="container">
             <div class="hero-content">
-                <div class="photo-wrapper">
-                    <img src="profile.jpg" alt="Thesnath Velayudhan">
-                    <div class="photo-dot"></div>
-                </div>
+
+                <!-- LEFT: All text -->
                 <div class="hero-text">
                     <div class="hero-eyebrow fade-up">Software Engineer · Petaling Jaya, Malaysia</div>
                     <h1 class="fade-up">Thesnath<br><span class="name-accent">Velayudhan</span></h1>
@@ -970,6 +984,13 @@
                         <a href="#projects" class="btn btn-ghost">View projects</a>
                     </div>
                 </div>
+
+                <!-- RIGHT: Photo -->
+                <div class="photo-wrapper">
+                    <img src="profile.jpg" alt="Thesnath Velayudhan">
+                    <div class="photo-dot"></div>
+                </div>
+
             </div>
         </div>
     </section>
