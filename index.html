@@ -692,6 +692,33 @@
     .nav-links { display: none; }
     .hero { padding: 100px 0 60px; }
   }
+.photo-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    flex-shrink: 0;
+}
+
+    .photo-wrapper img {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        border: 2px solid var(--accent);
+        box-shadow: 0 0 0 4px rgba(108,99,255,0.15);
+    }
+
+.photo-dot {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    background: var(--green);
+    border-radius: 50%;
+    border: 3px solid var(--bg);
+}
 </style>
 </head>
 <body>
@@ -714,29 +741,33 @@
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="container">
-    <div class="hero-content">
-      <div class="hero-eyebrow fade-up">Software Engineer · Petaling Jaya, Malaysia</div>
-      <h1 class="fade-up">Thesnath<br><span class="name-accent">Velayudhan</span></h1>
-      <p class="hero-subtitle fade-up">Backend · Fintech · Data Science</p>
-      <div class="hero-tags fade-up">
-        <span class="tag active">C# / .NET</span>
-        <span class="tag">ASP.NET Core</span>
-        <span class="tag">SQL Server</span>
-        <span class="tag">REST APIs</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">Power BI</span>
-        <span class="tag">Python (learning)</span>
+      <div class="hero-content">
+        <div class="photo-wrapper">
+            <img src="profile.jpg" alt="Thesnath Velayudhan">
+            <div class="photo-dot"></div>
+        </div>
+          <div class="hero-eyebrow fade-up">Software Engineer · Petaling Jaya, Malaysia</div>
+          <h1 class="fade-up">Thesnath<br><span class="name-accent">Velayudhan</span></h1>
+          <p class="hero-subtitle fade-up">Backend · Fintech · Data Science</p>
+          <div class="hero-tags fade-up">
+              <span class="tag active">C# / .NET</span>
+              <span class="tag">ASP.NET Core</span>
+              <span class="tag">SQL Server</span>
+              <span class="tag">REST APIs</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">Python (learning)</span>
+          </div>
+          <p class="hero-desc fade-up">
+              Early-career Software Engineer with hands-on experience building fintech card-management
+              systems at <strong>Cardtrend Systems</strong>. First-Class Honours graduate, published researcher, and former
+              CS lecturer and now growing into data engineering and ML-driven development.
+          </p>
+          <div class="hero-cta fade-up">
+              <a href="#contact" class="btn btn-primary">Get in touch ↗</a>
+              <a href="#projects" class="btn btn-ghost">View projects</a>
+          </div>
       </div>
-      <p class="hero-desc fade-up">
-          Early-career Software Engineer with hands-on experience building fintech card-management 
-          systems at <strong>Cardtrend Systems</strong>. First-Class Honours graduate, published researcher, and former 
-          CS lecturer and now growing into data engineering and ML-driven development.
-      </p>
-      <div class="hero-cta fade-up">
-        <a href="#contact" class="btn btn-primary">Get in touch ↗</a>
-        <a href="#projects" class="btn btn-ghost">View projects</a>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1000,7 +1031,7 @@
             <p class="edu-school">Lincoln University College, Malaysia</p>
             <p class="edu-note">★ CGPA 4.00/4.00</p>
 
-          </div>
+          </div> 
         <p class="edu-year">2023 – 2025</p>
       </div>
       <div class="edu-card">
