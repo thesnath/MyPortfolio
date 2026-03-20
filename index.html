@@ -1,1146 +1,1238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thesnath Velayudhan — Software Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0a0a0f;
-    --bg2: #111118;
-    --bg3: #16161f;
-    --surface: #1c1c28;
-    --surface2: #22223a;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #e8e8f0;
-    --muted: #8888a8;
-    --dim: #55556a;
-    --accent: #6c63ff;
-    --accent2: #a78bfa;
-    --accent3: #38bdf8;
-    --green: #34d399;
-    --amber: #fbbf24;
-    --coral: #f87171;
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --font-mono: 'DM Mono', monospace;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* ── GRID LINES ── */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 80px 80px;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 18px 0;
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  nav .inner {
-    max-width: 1100px; margin: 0 auto; padding: 0 32px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-
-  .nav-logo {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-  }
-
-  .nav-logo span { color: var(--accent2); }
-
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--text); }
-
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 120px 0 80px;
-    position: relative;
-  }
-
-  .hero-glow {
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-
-    .hero-content {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 60px;
-    }
-
-    .hero-text {
-        flex: 1;
-    }
-
-  .hero-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--accent2);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    display: block;
-    width: 32px; height: 1px;
-    background: var(--accent2);
-  }
-
-  .hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(48px, 7vw, 88px);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -0.04em;
-    color: var(--text);
-    margin-bottom: 12px;
-  }
-
-  .hero h1 .name-accent { color: var(--accent2); }
-
-  .hero-subtitle {
-    font-family: var(--font-display);
-    font-size: clamp(20px, 3vw, 28px);
-    font-weight: 500;
-    color: var(--muted);
-    margin-bottom: 28px;
-    letter-spacing: -0.02em;
-  }
-
-  .hero-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 40px;
-  }
-
-  .tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    padding: 5px 12px;
-    border-radius: 4px;
-    border: 1px solid var(--border2);
-    color: var(--muted);
-    letter-spacing: 0.04em;
-    background: var(--surface);
-    transition: all 0.2s;
-  }
-
-  .tag:hover { border-color: var(--accent); color: var(--accent2); }
-  .tag.active { border-color: var(--accent); color: var(--accent2); background: rgba(108,99,255,0.1); }
-
-  .hero-desc {
-    font-size: 17px;
-    color: var(--muted);
-    max-width: 600px;
-    margin-bottom: 44px;
-    line-height: 1.8;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 14px 28px;
-    border-radius: 8px;
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    transition: all 0.25s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    border: none;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(108,99,255,0.3);
-  }
-  .btn-primary:hover {
-    background: var(--accent2);
-    box-shadow: 0 0 0 1px var(--accent2), 0 12px 40px rgba(167,139,250,0.4);
-    transform: translateY(-2px);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--border2);
-  }
-  .btn-ghost:hover {
-    color: var(--text);
-    border-color: var(--text);
-    transform: translateY(-2px);
-  }
-
-  /* ── SECTION BASE ── */
-  section { padding: 100px 0; }
-
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent2);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 24px; height: 1px;
-    background: var(--accent2);
-  }
-
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 4vw, 42px);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--text);
-    margin-bottom: 60px;
-    line-height: 1.1;
-  }
-
-  /* ── ABOUT ── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-
-  .about-text p {
-    color: var(--muted);
-    margin-bottom: 20px;
-    line-height: 1.9;
-    font-size: 16px;
-  }
-
-  .about-text p strong { color: var(--text); font-weight: 500; }
-
-  .about-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-  }
-
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 28px 24px;
-    transition: border-color 0.2s;
-  }
-  .stat-card:hover { border-color: var(--border2); }
-  .stat-card:first-child { border-radius: 12px 0 0 0; }
-  .stat-card:nth-child(2) { border-radius: 0 12px 0 0; }
-  .stat-card:nth-child(3) { border-radius: 0 0 0 12px; }
-  .stat-card:last-child { border-radius: 0 0 12px 0; }
-
-  .stat-num {
-    font-family: var(--font-display);
-    font-size: 40px;
-    font-weight: 800;
-    color: var(--accent2);
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .stat-label {
-    font-size: 13px;
-    color: var(--dim);
-    font-family: var(--font-mono);
-    letter-spacing: 0.02em;
-  }
-
-  /* ── EXPERIENCE ── */
-  .exp-timeline { position: relative; padding-left: 28px; }
-
-  .exp-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 8px; bottom: 8px;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--accent), var(--border), transparent);
-  }
-
-  .exp-item {
-    position: relative;
-    padding-bottom: 52px;
-  }
-  .exp-item:last-child { padding-bottom: 0; }
-
-  .exp-item::before {
-    content: '';
-    position: absolute;
-    left: -32px;
-    top: 8px;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 12px rgba(108,99,255,0.6);
-  }
-
-  .exp-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-  }
-
-  .exp-date {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: 0.06em;
-  }
-
-  .exp-badge {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 3px;
-    background: rgba(52,211,153,0.12);
-    color: var(--green);
-    border: 1px solid rgba(52,211,153,0.25);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .exp-title {
-    font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
-    letter-spacing: -0.02em;
-  }
-
-  .exp-company {
-    font-size: 14px;
-    color: var(--accent3);
-    margin-bottom: 16px;
-    font-weight: 300;
-  }
-
-  .exp-bullets { list-style: none; }
-  .exp-bullets li {
-    font-size: 15px;
-    color: var(--muted);
-    margin-bottom: 8px;
-    padding-left: 20px;
-    position: relative;
-    line-height: 1.7;
-  }
-  .exp-bullets li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 12px;
-    top: 3px;
-  }
-
-  /* ── SKILLS ── */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-  }
-
-  .skill-group {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 28px 24px;
-    transition: all 0.2s;
-  }
-  .skill-group:hover { border-color: var(--border2); background: var(--bg3); }
-  .skill-group:first-child { border-radius: 12px 0 0 0; }
-  .skill-group:nth-child(3) { border-radius: 0 12px 0 0; }
-  .skill-group:nth-child(4) { border-radius: 0 0 0 12px; }
-  .skill-group:last-child { border-radius: 0 0 12px 0; }
-
-  .skill-group-title {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent2);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-
-  .chip {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 4px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
-  /* ── PROJECTS ── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2px;
-  }
-
-  .project-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 32px 28px;
-    transition: all 0.25s;
-    cursor: default;
-    position: relative;
-    overflow: hidden;
-  }
-  .project-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(108,99,255,0.06), transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .project-card:hover::before { opacity: 1; }
-  .project-card:hover { border-color: rgba(108,99,255,0.3); transform: translateY(-2px); }
-
-  .project-card:first-child { border-radius: 12px 0 0 0; }
-  .project-card:nth-child(3) { border-radius: 0 12px 0 0; }
-  .project-card:nth-child(4) { border-radius: 0 0 0 12px; }
-  .project-card:last-child { border-radius: 0 0 12px 0; }
-
-  .project-num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: 0.1em;
-    margin-bottom: 20px;
-  }
-
-  .project-title {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 10px;
-    letter-spacing: -0.02em;
-  }
-
-  .project-desc {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-
-  .project-stack { display: flex; flex-wrap: wrap; gap: 6px; }
-  .stack-tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    padding: 3px 9px;
-    border-radius: 3px;
-    background: rgba(108,99,255,0.1);
-    border: 1px solid rgba(108,99,255,0.2);
-    color: var(--accent2);
-  }
-
-  /* ── EDUCATION ── */
-  .edu-grid { display: grid; gap: 2px; }
-
-  .edu-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 28px 32px;
-    gap: 32px;
-    transition: all 0.2s;
-  }
-  .edu-card:hover { border-color: var(--border2); }
-  .edu-card:first-child { border-radius: 12px 12px 0 0; }
-  .edu-card:last-child { border-radius: 0 0 12px 12px; }
-
-  .edu-degree {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
-    letter-spacing: -0.02em;
-  }
-
-  .edu-school { font-size: 14px; color: var(--muted); }
-  .edu-note {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--green);
-    margin-top: 6px;
-    letter-spacing: 0.04em;
-  }
-
-  .edu-year {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--dim);
-    white-space: nowrap;
-    letter-spacing: 0.06em;
-  }
-
-  /* ── CERTS ── */
-  .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-
-  .cert-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 22px 20px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .cert-card:hover { border-color: var(--border2); }
-  .cert-card:first-child { border-radius: 12px 0 0 0; }
-  .cert-card:nth-child(3) { border-radius: 0 12px 0 0; }
-  .cert-card:nth-child(4) { border-radius: 0 0 0 12px; }
-  .cert-card:last-child { border-radius: 0 0 12px 0; }
-
-  .cert-icon {
-    width: 36px; height: 36px;
-    background: rgba(108,99,255,0.1);
-    border: 1px solid rgba(108,99,255,0.2);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-
-  .cert-name {
-    font-size: 13px;
-    color: var(--text);
-    font-weight: 500;
-    line-height: 1.4;
-  }
-  .cert-issuer {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: 3px;
-    letter-spacing: 0.04em;
-  }
-
-  /* ── CONTACT ── */
-  .contact-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .contact-box::before {
-    content: '';
-    position: absolute;
-    top: -100px; left: 50%;
-    transform: translateX(-50%);
-    width: 400px; height: 300px;
-    background: radial-gradient(ellipse, rgba(108,99,255,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .contact-title {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    color: var(--text);
-    margin-bottom: 12px;
-    line-height: 1.1;
-  }
-
-  .contact-sub {
-    color: var(--muted);
-    font-size: 16px;
-    margin-bottom: 40px;
-  }
-
-  .contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 0;
-    text-align: center;
-    color: var(--dim);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-up { animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) both; }
-  .fade-up:nth-child(1) { animation-delay: 0.1s; }
-  .fade-up:nth-child(2) { animation-delay: 0.2s; }
-  .fade-up:nth-child(3) { animation-delay: 0.3s; }
-  .fade-up:nth-child(4) { animation-delay: 0.4s; }
-  .fade-up:nth-child(5) { animation-delay: 0.5s; }
-
-  /* ── DIVIDER ── */
-  .divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border2), transparent);
-    margin: 0;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .about-grid { grid-template-columns: 1fr; }
-    .skills-grid { grid-template-columns: 1fr 1fr; }
-    .certs-grid { grid-template-columns: 1fr 1fr; }
-    .edu-card { flex-direction: column; align-items: flex-start; gap: 12px; }
-    .contact-box { padding: 40px 24px; }
-    .nav-links { display: none; }
-    .hero { padding: 100px 0 60px; }
-  }
-    .photo-wrapper img {
-        width: 140px;
-        height: 140px;
-    }
-
-    .photo-wrapper {
-        width: 140px;
-        height: 140px;
-        flex-shrink: 0;
-    }
-
-.photo-dot {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 16px;
-    height: 16px;
-    background: var(--green);
-    border-radius: 50%;
-    border: 3px solid var(--bg);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thesnath Velayudhan — Software Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #111118;
+            --bg3: #16161f;
+            --surface: #1c1c28;
+            --surface2: #22223a;
+            --border: rgba(255,255,255,0.07);
+            --border2: rgba(255,255,255,0.12);
+            --text: #e8e8f0;
+            --muted: #8888a8;
+            --dim: #55556a;
+            --accent: #6c63ff;
+            --accent2: #a78bfa;
+            --accent3: #38bdf8;
+            --green: #34d399;
+            --amber: #fbbf24;
+            --coral: #f87171;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'DM Mono', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.4;
+            }
+
+            body::after {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+                background-size: 80px 80px;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.4;
+            }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 18px 0;
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+            nav .inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 0 32px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+            .nav-logo span {
+                color: var(--accent2);
+            }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+            .nav-links a {
+                font-family: var(--font-mono);
+                font-size: 12px;
+                color: var(--muted);
+                text-decoration: none;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                transition: color 0.2s;
+            }
+
+                .nav-links a:hover {
+                    color: var(--text);
+                }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        /* ── PHOTO FIX ── */
+        .photo-wrapper {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            flex-shrink: 0;
+        }
+
+            .photo-wrapper img {
+                width: 160px;
+                height: 160px;
+                border-radius: 50%;
+                object-fit: cover;
+                object-position: center top;
+                border: 2px solid var(--accent);
+                box-shadow: 0 0 0 4px rgba(108,99,255,0.15);
+                display: block;
+            }
+
+        .photo-dot {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+            background: var(--green);
+            border-radius: 50%;
+            border: 3px solid var(--bg);
+        }
+
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent2);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .hero-eyebrow::before {
+                content: '';
+                display: block;
+                width: 32px;
+                height: 1px;
+                background: var(--accent2);
+            }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(48px, 7vw, 88px);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+            .hero h1 .name-accent {
+                color: var(--accent2);
+            }
+
+        .hero-subtitle {
+            font-family: var(--font-display);
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 500;
+            color: var(--muted);
+            margin-bottom: 28px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 5px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border2);
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            background: var(--surface);
+            transition: all 0.2s;
+        }
+
+            .tag:hover {
+                border-color: var(--accent);
+                color: var(--accent2);
+            }
+
+            .tag.active {
+                border-color: var(--accent);
+                color: var(--accent2);
+                background: rgba(108,99,255,0.1);
+            }
+
+        .hero-desc {
+            font-size: 17px;
+            color: var(--muted);
+            max-width: 600px;
+            margin-bottom: 44px;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(108,99,255,0.3);
+        }
+
+            .btn-primary:hover {
+                background: var(--accent2);
+                box-shadow: 0 0 0 1px var(--accent2), 0 12px 40px rgba(167,139,250,0.4);
+                transform: translateY(-2px);
+            }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border2);
+        }
+
+            .btn-ghost:hover {
+                color: var(--text);
+                border-color: var(--text);
+                transform: translateY(-2px);
+            }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent2);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .section-label::before {
+                content: '';
+                display: block;
+                width: 24px;
+                height: 1px;
+                background: var(--accent2);
+            }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 60px;
+            line-height: 1.1;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .about-text p {
+            color: var(--muted);
+            margin-bottom: 20px;
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+            .about-text p strong {
+                color: var(--text);
+                font-weight: 500;
+            }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 28px 24px;
+            transition: border-color 0.2s;
+        }
+
+            .stat-card:hover {
+                border-color: var(--border2);
+            }
+
+            .stat-card:first-child {
+                border-radius: 12px 0 0 0;
+            }
+
+            .stat-card:nth-child(2) {
+                border-radius: 0 12px 0 0;
+            }
+
+            .stat-card:nth-child(3) {
+                border-radius: 0 0 0 12px;
+            }
+
+            .stat-card:last-child {
+                border-radius: 0 0 12px 0;
+            }
+
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--accent2);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--dim);
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
+        }
+
+        .exp-timeline {
+            position: relative;
+            padding-left: 28px;
+        }
+
+            .exp-timeline::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 8px;
+                bottom: 8px;
+                width: 1px;
+                background: linear-gradient(to bottom, var(--accent), var(--border), transparent);
+            }
+
+        .exp-item {
+            position: relative;
+            padding-bottom: 52px;
+        }
+
+            .exp-item:last-child {
+                padding-bottom: 0;
+            }
+
+            .exp-item::before {
+                content: '';
+                position: absolute;
+                left: -32px;
+                top: 8px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--accent);
+                box-shadow: 0 0 12px rgba(108,99,255,0.6);
+            }
+
+        .exp-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .exp-date {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 0.06em;
+        }
+
+        .exp-badge {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background: rgba(52,211,153,0.12);
+            color: var(--green);
+            border: 1px solid rgba(52,211,153,0.25);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .exp-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .exp-company {
+            font-size: 14px;
+            color: var(--accent3);
+            margin-bottom: 16px;
+            font-weight: 300;
+        }
+
+        .exp-bullets {
+            list-style: none;
+        }
+
+            .exp-bullets li {
+                font-size: 15px;
+                color: var(--muted);
+                margin-bottom: 8px;
+                padding-left: 20px;
+                position: relative;
+                line-height: 1.7;
+            }
+
+                .exp-bullets li::before {
+                    content: '→';
+                    position: absolute;
+                    left: 0;
+                    color: var(--accent);
+                    font-size: 12px;
+                    top: 3px;
+                }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .skill-group {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 28px 24px;
+            transition: all 0.2s;
+        }
+
+            .skill-group:hover {
+                border-color: var(--border2);
+                background: var(--bg3);
+            }
+
+            .skill-group:first-child {
+                border-radius: 12px 0 0 0;
+            }
+
+            .skill-group:nth-child(3) {
+                border-radius: 0 12px 0 0;
+            }
+
+            .skill-group:nth-child(4) {
+                border-radius: 0 0 0 12px;
+            }
+
+            .skill-group:last-child {
+                border-radius: 0 0 12px 0;
+            }
+
+        .skill-group-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent2);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .chip {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 32px 28px;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .project-card::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, rgba(108,99,255,0.06), transparent 60%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .project-card:hover::before {
+                opacity: 1;
+            }
+
+            .project-card:hover {
+                border-color: rgba(108,99,255,0.3);
+                transform: translateY(-2px);
+            }
+
+            .project-card:first-child {
+                border-radius: 12px 0 0 0;
+            }
+
+            .project-card:nth-child(3) {
+                border-radius: 0 12px 0 0;
+            }
+
+            .project-card:last-child {
+                border-radius: 0 0 12px 0;
+            }
+
+        .project-num {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .project-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .stack-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 3px;
+            background: rgba(108,99,255,0.1);
+            border: 1px solid rgba(108,99,255,0.2);
+            color: var(--accent2);
+        }
+
+        .edu-grid {
+            display: grid;
+            gap: 2px;
+        }
+
+        .edu-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 28px 32px;
+            gap: 32px;
+            transition: all 0.2s;
+        }
+
+            .edu-card:hover {
+                border-color: var(--border2);
+            }
+
+            .edu-card:first-child {
+                border-radius: 12px 12px 0 0;
+            }
+
+            .edu-card:last-child {
+                border-radius: 0 0 12px 12px;
+            }
+
+        .edu-degree {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .edu-school {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .edu-note {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--green);
+            margin-top: 6px;
+            letter-spacing: 0.04em;
+        }
+
+        .edu-year {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--dim);
+            white-space: nowrap;
+            letter-spacing: 0.06em;
+        }
+
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .cert-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 22px 20px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+            .cert-card:hover {
+                border-color: var(--border2);
+            }
+
+            .cert-card:first-child {
+                border-radius: 12px 0 0 0;
+            }
+
+            .cert-card:nth-child(3) {
+                border-radius: 0 12px 0 0;
+            }
+
+            .cert-card:nth-child(4) {
+                border-radius: 0 0 0 12px;
+            }
+
+            .cert-card:last-child {
+                border-radius: 0 0 12px 0;
+            }
+
+        .cert-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(108,99,255,0.1);
+            border: 1px solid rgba(108,99,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .cert-name {
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .cert-issuer {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--dim);
+            margin-top: 3px;
+            letter-spacing: 0.04em;
+        }
+
+        .contact-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .contact-box::before {
+                content: '';
+                position: absolute;
+                top: -100px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 400px;
+                height: 300px;
+                background: radial-gradient(ellipse, rgba(108,99,255,0.12) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+        .contact-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .contact-sub {
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            text-align: center;
+            color: var(--dim);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) both;
+        }
+
+            .fade-up:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+
+            .fade-up:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .fade-up:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+            .fade-up:nth-child(4) {
+                animation-delay: 0.4s;
+            }
+
+            .fade-up:nth-child(5) {
+                animation-delay: 0.5s;
+            }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border2), transparent);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 32px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .certs-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .edu-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .contact-box {
+                padding: 40px 24px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="inner">
-    <a href="#" class="nav-logo">TV<span>.</span></a>
-    <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-glow"></div>
-  <div class="container">
-      <div class="hero-content">
-
-          <!-- LEFT: Photo -->
-          <div class="photo-wrapper">
-              <img src="profile.jpg" alt="Thesnath Velayudhan">
-              <div class="photo-dot"></div>
-          </div>
-
-          <!-- RIGHT: All text -->
-          <div class="hero-text">
-              <div class="hero-eyebrow">Software Engineer · Petaling Jaya, Malaysia</div>
-              <h1>Thesnath<br><span class="name-accent">Velayudhan</span></h1>
-              <p class="hero-subtitle fade-up">Backend · Fintech · Data Science</p>
-              <div class="hero-tags fade-up">
-                  <span class="tag active">C# / .NET</span>
-                  <span class="tag">ASP.NET Core</span>
-                  <span class="tag">SQL Server</span>
-                  <span class="tag">REST APIs</span>
-                  <span class="tag">JavaScript</span>
-                  <span class="tag">Power BI</span>
-                  <span class="tag">Python (learning)</span>
-              </div>
-              <p class="hero-desc fade-up">
-                  Early-career Software Engineer with hands-on experience building fintech card-management
-                  systems at <strong>Cardtrend Systems</strong>. First-Class Honours graduate, published researcher, and former
-                  CS lecturer and now growing into data engineering and ML-driven development.
-              </p>
-              <div class="hero-cta fade-up">
-                  <a href="#contact" class="btn btn-primary">Get in touch ↗</a>
-                  <a href="#projects" class="btn btn-ghost">View projects</a>
-              </div>
-          </div>
-      </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <p class="section-label">About me</p>
-    <h2 class="section-title">A bit about<br>who I am</h2>
-    <div class="about-grid">
-      <div class="about-text">
-          <p>
-            I'm a Software Engineer at <strong>Cardtrend Systems,</strong> where I contribute to backend development of 
-            card-management and financial applications using <strong>C#, ASP.NET Core, and SQL Server.</strong> I work across 
-            the full backend stack from SQL stored procedures to REST APIs in a fast-paced fintech environment.
-          </p>
-          <p>
-            Before this role, I spent over two years as a <strong>CS Lecturer at Lincoln University College,</strong> teaching 100+ students per 
-            class and publishing 3 peer-reviewed research papers in IT and cybersecurity. That background makes me unusually strong 
-            at breaking down complex problems and writing clean, understandable code.
-          </p>
-          <p>
-            I hold a <strong>First-Class Honours degree</strong> in Computer Science (Cybersecurity & Networks) and I have completed my 
-            Master's in Data Science & Analytics with a goal of growing into data engineering and ML-driven development.
-          </p>
-      </div>
-      <div class="about-stats">
-        <!--<div class="stat-card">
-          <div class="stat-num">6mo</div>
-          <div class="stat-label">Time to promotion</div>
-        </div>-->
-        <div class="stat-card">
-          <div class="stat-num">3</div>
-          <div class="stat-label">Peer-reviewed papers</div>
+    <nav>
+        <div class="inner">
+            <a href="#" class="nav-logo">TV<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
-        <div class="stat-card">
-          <div class="stat-num">100+</div>
-          <div class="stat-label">Students taught</div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="photo-wrapper">
+                    <img src="profile.jpg" alt="Thesnath Velayudhan">
+                    <div class="photo-dot"></div>
+                </div>
+                <div class="hero-text">
+                    <div class="hero-eyebrow fade-up">Software Engineer · Petaling Jaya, Malaysia</div>
+                    <h1 class="fade-up">Thesnath<br><span class="name-accent">Velayudhan</span></h1>
+                    <p class="hero-subtitle fade-up">Backend · Fintech · Data Science</p>
+                    <div class="hero-tags fade-up">
+                        <span class="tag active">C# / .NET</span>
+                        <span class="tag">ASP.NET Core</span>
+                        <span class="tag">SQL Server</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Power BI</span>
+                        <span class="tag">Python (learning)</span>
+                    </div>
+                    <p class="hero-desc fade-up">
+                        Early-career Software Engineer with hands-on experience building fintech card-management
+                        systems at <strong>Cardtrend Systems</strong>. First-Class Honours graduate, published researcher, and former
+                        CS lecturer — now growing into data engineering and ML-driven development.
+                    </p>
+                    <div class="hero-cta fade-up">
+                        <a href="#contact" class="btn btn-primary">Get in touch ↗</a>
+                        <a href="#projects" class="btn btn-ghost">View projects</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-num">1st</div>
-          <div class="stat-label">Class Honours, Dean's List</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="about">
+        <div class="container">
+            <p class="section-label">About me</p>
+            <h2 class="section-title">A bit about<br>who I am</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I'm a Software Engineer at <strong>Cardtrend Systems</strong>, where I contribute to backend development of card-management and financial applications using <strong>C#, ASP.NET Core, and SQL Server</strong>. I work across the full backend stack — from SQL stored procedures to REST APIs — in a fast-paced fintech environment.</p>
+                    <p>Before this role, I spent over two years as a <strong>CS Lecturer at Lincoln University College</strong>, teaching 100+ students per class and publishing 3 peer-reviewed research papers in IT and cybersecurity. That background makes me unusually strong at breaking down complex problems and writing clean, understandable code.</p>
+                    <p>I hold a <strong>First-Class Honours degree</strong> in Computer Science (Cybersecurity & Networks) and I have completed my Master's in Data Science & Analytics — with a goal of growing into data engineering and ML-driven development.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-num">3+</div>
+                        <div class="stat-label">Years in tech</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">3</div>
+                        <div class="stat-label">Peer-reviewed papers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">100+</div>
+                        <div class="stat-label">Students taught</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">1st</div>
+                        <div class="stat-label">Class Honours, Dean's List</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<div class="divider"></div>
+    <div class="divider"></div>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="container">
-    <p class="section-label">Career</p>
-    <h2 class="section-title">Where I've<br>worked</h2>
-    <div class="exp-timeline">
-
-      <div class="exp-item">
-        <div class="exp-meta">
-          <span class="exp-date">Mar 2026 – Present</span>
-          <span class="exp-badge">Current</span>
+    <section id="experience">
+        <div class="container">
+            <p class="section-label">Career</p>
+            <h2 class="section-title">Where I've<br>worked</h2>
+            <div class="exp-timeline">
+                <div class="exp-item">
+                    <div class="exp-meta">
+                        <span class="exp-date">Mar 2026 – Present</span>
+                        <span class="exp-badge">Current</span>
+                    </div>
+                    <h3 class="exp-title">Software Engineer</h3>
+                    <p class="exp-company">Cardtrend Systems · Petaling Jaya, Malaysia</p>
+                    <ul class="exp-bullets">
+                        <li>Develop and enhance card-management and financial applications using C#, ASP.NET Core, and SQL Server</li>
+                        <li>Troubleshoot complex issues across SQL stored procedures, backend services, and frontend interactions</li>
+                        <li>Participate in code reviews, system testing, debugging, documentation, and version control using Git</li>
+                        <li>Collaborate with cross-functional teams in an Agile environment to deliver features to production</li>
+                    </ul>
+                </div>
+                <div class="exp-item">
+                    <div class="exp-meta">
+                        <span class="exp-date">Sep 2025 – Feb 2026</span>
+                    </div>
+                    <h3 class="exp-title">Junior Software Developer</h3>
+                    <p class="exp-company">Cardtrend Systems · Petaling Jaya, Malaysia</p>
+                    <ul class="exp-bullets">
+                        <li>Contributed to card-management and financial application development using C#, .NET, and SQL Server</li>
+                        <li>Developed backend modules and SQL stored procedures; debugged issues across the full application stack</li>
+                        <li>Performed system testing, wrote technical documentation, and managed code via Git and Bitbucket</li>
+                    </ul>
+                </div>
+                <div class="exp-item">
+                    <div class="exp-meta">
+                        <span class="exp-date">Apr 2023 – Aug 2025</span>
+                    </div>
+                    <h3 class="exp-title">Lecturer — Computer Science</h3>
+                    <p class="exp-company">Lincoln University College · Petaling Jaya, Malaysia</p>
+                    <ul class="exp-bullets">
+                        <li>Taught programming fundamentals, web development, data science, and cybersecurity to 100+ students</li>
+                        <li>Designed digital course materials and LMS (Moodle) modules, improving student engagement</li>
+                        <li>Supervised student capstone projects involving full-stack development and database systems</li>
+                        <li>Published 3 peer-reviewed research papers in IT and cybersecurity</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <h3 class="exp-title">Software Engineer</h3>
-        <p class="exp-company">Cardtrend Systems · Petaling Jaya, Malaysia</p>
-        <ul class="exp-bullets">
-          <li>Develop and enhance card-management and financial applications using C#, ASP.NET Core, and SQL Server</li>
-          <li>Troubleshoot complex issues across SQL stored procedures, backend services, and frontend interactions</li>
-          <li>Participate in code reviews, system testing, debugging, documentation, and version control using Git</li>
-          <li>Collaborate with cross-functional teams in an Agile environment to deliver features to production</li>
-        </ul>
-      </div>
+    </section>
 
-      <div class="exp-item">
-        <div class="exp-meta">
-          <span class="exp-date">Sep 2025 – Feb 2026</span>
+    <div class="divider"></div>
+
+    <section id="skills">
+        <div class="container">
+            <p class="section-label">Technical Skills</p>
+            <h2 class="section-title">What I work<br>with</h2>
+            <div class="skills-grid">
+                <div class="skill-group">
+                    <p class="skill-group-title">Languages</p>
+                    <div class="skill-chips">
+                        <span class="chip">C#</span><span class="chip">JavaScript</span><span class="chip">SQL (T-SQL)</span><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">PHP</span><span class="chip">Python</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-title">Frameworks & Tools</p>
+                    <div class="skill-chips">
+                        <span class="chip">.NET</span><span class="chip">ASP.NET Core</span><span class="chip">ASP.NET MVC</span><span class="chip">Entity Framework</span><span class="chip">REST APIs</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-title">Databases</p>
+                    <div class="skill-chips">
+                        <span class="chip">SQL Server</span><span class="chip">SSMS</span><span class="chip">MySQL</span><span class="chip">Stored Procedures</span><span class="chip">Query Optimisation</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-title">Data & Analytics</p>
+                    <div class="skill-chips">
+                        <span class="chip">Power BI</span><span class="chip">Excel</span><span class="chip">Data Visualisation</span><span class="chip">Data Preprocessing</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-title">Dev Tools & Version Control</p>
+                    <div class="skill-chips">
+                        <span class="chip">Git</span><span class="chip">Bitbucket</span><span class="chip">Jira</span><span class="chip">Visual Studio</span><span class="chip">VS Code</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-title">Networking & Security</p>
+                    <div class="skill-chips">
+                        <span class="chip">TCP/IP</span><span class="chip">DHCP / DNS</span><span class="chip">LAN / WAN</span><span class="chip">VPN</span><span class="chip">Cybersecurity</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="exp-title">Junior Software Developer</h3>
-        <p class="exp-company">Cardtrend Systems · Petaling Jaya, Malaysia</p>
-        <ul class="exp-bullets">
-          <li>Contributed to card-management and financial application development using C#, .NET, and SQL Server</li>
-          <li>Developed backend modules and SQL stored procedures; debugged issues across the full application stack</li>
-          <li>Performed system testing, wrote technical documentation, and managed code via Git and Bitbucket</li>
-        </ul>
-      </div>
+    </section>
 
-      <div class="exp-item">
-        <div class="exp-meta">
-          <span class="exp-date">Apr 2023 – Aug 2025</span>
+    <div class="divider"></div>
+
+    <section id="projects">
+        <div class="container">
+            <p class="section-label">Projects</p>
+            <h2 class="section-title">Things I've<br>built</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <p class="project-num">01 ·</p>
+                    <h3 class="project-title">Student Attendance Management System</h3>
+                    <p class="project-desc">Windows Forms application with full CRUD operations, secure login, search, and reporting features. Integrated SQL Server via Entity Framework for reliable data storage and attendance tracking.</p>
+                    <div class="project-stack">
+                        <span class="stack-tag">C#</span><span class="stack-tag">.NET</span><span class="stack-tag">SQL Server</span><span class="stack-tag">Entity Framework</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <p class="project-num">02 ·</p>
+                    <h3 class="project-title">Web-Based Student Management System</h3>
+                    <p class="project-desc">Bachelor's capstone project — a secure, responsive web application for student record management and report generation. Implemented user authentication, input validation, and responsive UI.</p>
+                    <div class="project-stack">
+                        <span class="stack-tag">PHP</span><span class="stack-tag">MySQL</span><span class="stack-tag">HTML</span><span class="stack-tag">CSS</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <p class="project-num">03 ·</p>
+                    <h3 class="project-title">Mini Network Lab Simulation</h3>
+                    <p class="project-desc">Designed a virtual LAN/WAN environment with routers, switches, and hosts. Configured IP addressing, DHCP, and basic firewall rules in Cisco Packet Tracer.</p>
+                    <div class="project-stack">
+                        <span class="stack-tag">Cisco Packet Tracer</span><span class="stack-tag">Networking</span><span class="stack-tag">DHCP</span><span class="stack-tag">Firewall</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="exp-title">Lecturer — Computer Science</h3>
-        <p class="exp-company">Lincoln University College · Petaling Jaya, Malaysia</p>
-        <ul class="exp-bullets">
-          <li>Taught programming fundamentals, web development, data science, and cybersecurity to 100+ students</li>
-          <li>Designed digital course materials and LMS (Moodle) modules, improving student engagement</li>
-          <li>Supervised student capstone projects involving full-stack development and database systems</li>
-          <li>Published 3 peer-reviewed research papers in IT and cybersecurity</li>
-        </ul>
-      </div>
+    </section>
 
-    </div>
-  </div>
-</section>
+    <div class="divider"></div>
 
-<div class="divider"></div>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="container">
-    <p class="section-label">Technical Skills</p>
-    <h2 class="section-title">What I work<br>with</h2>
-    <div class="skills-grid">
-      <div class="skill-group">
-        <p class="skill-group-title">Languages</p>
-        <div class="skill-chips">
-          <span class="chip">C#</span>
-          <span class="chip">JavaScript</span>
-          <span class="chip">SQL (T-SQL)</span>
-          <span class="chip">HTML</span>
-          <span class="chip">CSS</span>
-          <span class="chip">PHP</span>
-          <span class="chip">Python</span>
+    <section id="education">
+        <div class="container">
+            <p class="section-label">Education</p>
+            <h2 class="section-title">Academic<br>background</h2>
+            <div class="edu-grid">
+                <div class="edu-card">
+                    <div>
+                        <p class="edu-degree">Master of Science — Data Science & Analytics</p>
+                        <p class="edu-school">Lincoln University College, Malaysia</p>
+                        <p class="edu-note">★ CGPA 4.00/4.00</p>
+                    </div>
+                    <p class="edu-year">2023 – 2025</p>
+                </div>
+                <div class="edu-card">
+                    <div>
+                        <p class="edu-degree">Bachelor of Computer Science — Cybersecurity & Network Technology</p>
+                        <p class="edu-school">Lincoln University College, Malaysia</p>
+                        <p class="edu-note">★ First-Class Honours · Dean's List</p>
+                        <p class="edu-note">★ CGPA 3.85/4.00</p>
+                    </div>
+                    <p class="edu-year">2020 – 2023</p>
+                </div>
+                <div class="edu-card">
+                    <div>
+                        <p class="edu-degree">Diploma in Multimedia Applications</p>
+                        <p class="edu-school">Lincoln University College, Malaysia</p>
+                        <p class="edu-note">★ CGPA 3.67/4.00</p>
+                    </div>
+                    <p class="edu-year">2017 – 2019</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="skill-group">
-        <p class="skill-group-title">Frameworks & Tools</p>
-        <div class="skill-chips">
-          <span class="chip">.NET</span>
-          <span class="chip">ASP.NET Core</span>
-          <span class="chip">ASP.NET MVC</span>
-          <span class="chip">Entity Framework</span>
-          <span class="chip">REST APIs</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <p class="skill-group-title">Databases</p>
-        <div class="skill-chips">
-          <span class="chip">SQL Server</span>
-          <span class="chip">SSMS</span>
-          <span class="chip">MySQL</span>
-          <span class="chip">Stored Procedures</span>
-          <span class="chip">Query Optimisation</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <p class="skill-group-title">Data & Analytics</p>
-        <div class="skill-chips">
-          <span class="chip">Power BI</span>
-          <span class="chip">Excel</span>
-          <span class="chip">Data Visualisation</span>
-          <span class="chip">Data Preprocessing</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <p class="skill-group-title">Dev Tools & Version Control</p>
-        <div class="skill-chips">
-          <span class="chip">Git</span>
-          <span class="chip">Bitbucket</span>
-          <span class="chip">Jira</span>
-          <span class="chip">Visual Studio</span>
-          <span class="chip">VS Code</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <p class="skill-group-title">Networking & Security</p>
-        <div class="skill-chips">
-          <span class="chip">TCP/IP</span>
-          <span class="chip">DHCP / DNS</span>
-          <span class="chip">LAN / WAN</span>
-          <span class="chip">VPN</span>
-          <span class="chip">Cybersecurity</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<div class="divider"></div>
+    <div class="divider"></div>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="container">
-    <p class="section-label">Projects</p>
-    <h2 class="section-title">Things I've<br>built</h2>
-    <div class="projects-grid">
-
-      <div class="project-card">
-        <p class="project-num">01 ·</p>
-        <h3 class="project-title">Student Attendance Management System</h3>
-        <p class="project-desc">
-          Windows Forms application with full CRUD operations, secure login, search, and reporting features.
-          Integrated SQL Server via Entity Framework for reliable data storage and attendance tracking.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">C#</span>
-          <span class="stack-tag">.NET</span>
-          <span class="stack-tag">SQL Server</span>
-          <span class="stack-tag">Entity Framework</span>
+    <section>
+        <div class="container">
+            <p class="section-label">Certifications</p>
+            <h2 class="section-title">Credentials &<br>achievements</h2>
+            <div class="certs-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">🔷</div>
+                    <div><p class="cert-name">IBM Data Fundamentals</p><p class="cert-issuer">IBM SkillsBuild</p></div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">📊</div>
+                    <div><p class="cert-name">Mastering Data Skills — Power BI</p><p class="cert-issuer">Microsoft Essentials</p></div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">📈</div>
+                    <div><p class="cert-name">Power BI Certification</p><p class="cert-issuer">Exodus Experts</p></div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">🤖</div>
+                    <div><p class="cert-name">Introduction to Data Science</p><p class="cert-issuer">MyGreatLearning</p></div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">🏆</div>
+                    <div><p class="cert-name">First-Class Honours · Dean's List</p><p class="cert-issuer">BSc Computer Science, Lincoln University</p></div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">📄</div>
+                    <div><p class="cert-name">3 Peer-Reviewed Research Papers</p><p class="cert-issuer">IT & Cybersecurity</p></div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="project-card">
-        <p class="project-num">02 ·</p>
-        <h3 class="project-title">Web-Based Student Management System</h3>
-        <p class="project-desc">
-          Bachelor's capstone project — a secure, responsive web application for student record management
-          and report generation. Implemented user authentication, input validation, and responsive UI.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">PHP</span>
-          <span class="stack-tag">MySQL</span>
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">CSS</span>
+    <div class="divider"></div>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-box">
+                <p class="section-label" style="justify-content: center; margin-bottom: 20px;">Let's connect</p>
+                <h2 class="contact-title">Open to opportunities<br>& collaboration</h2>
+                <p class="contact-sub">Whether it's a project, a question, or just a conversation — reach out.</p>
+                <div class="contact-links">
+                    <a href="mailto:thesnath97@gmail.com" class="btn btn-primary">thesnath97@gmail.com ↗</a>
+                    <a href="https://github.com/thesnath" class="btn btn-ghost" target="_blank">GitHub ↗</a>
+                    <a href="https://www.linkedin.com/in/thesnath-velayudhan-a7a941255/" class="btn btn-ghost" target="_blank">LinkedIn ↗</a>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="project-card">
-        <p class="project-num">03 ·</p>
-        <h3 class="project-title">Mini Network Lab Simulation</h3>
-        <p class="project-desc">
-          Designed a virtual LAN/WAN environment with routers, switches, and hosts. Configured IP addressing,
-          DHCP, and basic firewall rules in Cisco Packet Tracer.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">Cisco Packet Tracer</span>
-          <span class="stack-tag">Networking</span>
-          <span class="stack-tag">DHCP</span>
-          <span class="stack-tag">Firewall</span>
+    <footer>
+        <div class="container">
+            Built by Thesnath Velayudhan · 2026 · Petaling Jaya, Malaysia
         </div>
-      </div>
-
-      <!--<div class="project-card">
-        <p class="project-num">04 ·</p>
-        <h3 class="project-title">More coming soon...</h3>
-        <p class="project-desc">
-          Currently building personal projects to grow my GitHub portfolio — including a REST API
-          with ASP.NET Core, a full-stack expense tracker, and data analysis projects with Python.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">ASP.NET Core</span>
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">Power BI</span>
-        </div>
-      </div>-->
-
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- EDUCATION -->
-<section id="education">
-  <div class="container">
-    <p class="section-label">Education</p>
-    <h2 class="section-title">Academic<br>background</h2>
-    <div class="edu-grid">
-      <div class="edu-card">
-          <div>
-            <p class="edu-degree">Master of Science — Data Science & Analytics</p>
-            <p class="edu-school">Lincoln University College, Malaysia</p>
-            <p class="edu-note">★ CGPA 4.00/4.00</p>
-
-          </div> 
-        <p class="edu-year">2023 – 2025</p>
-      </div>
-      <div class="edu-card">
-        <div>
-          <p class="edu-degree">Bachelor of Computer Science — Cybersecurity & Network Technology</p>
-          <p class="edu-school">Lincoln University College, Malaysia</p>
-          <p class="edu-note">★ First-Class Honours · Dean's List</p>
-          <p class="edu-note">★ CGPA 3.85/4.00</p>
-        </div>
-        <p class="edu-year">2020 – 2023</p>
-      </div>
-      <div class="edu-card">
-          <div>
-            <p class="edu-degree">Diploma in Multimedia Applications</p>
-            <p class="edu-school">Lincoln University College, Malaysia</p>
-            <p class="edu-note">★ CGPA 3.67/4.00</p>
-
-          </div>
-        <p class="edu-year">2017 – 2019</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- CERTIFICATIONS -->
-<section>
-  <div class="container">
-    <p class="section-label">Certifications</p>
-    <h2 class="section-title">Credentials &<br>achievements</h2>
-    <div class="certs-grid">
-      <div class="cert-card">
-        <div class="cert-icon">🔷</div>
-        <div>
-          <p class="cert-name">IBM Data Fundamentals</p>
-          <p class="cert-issuer">IBM SkillsBuild</p>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-icon">📊</div>
-        <div>
-          <p class="cert-name">Mastering Data Skills — Power BI</p>
-          <p class="cert-issuer">Microsoft Essentials</p>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-icon">📈</div>
-        <div>
-          <p class="cert-name">Power BI Certification</p>
-          <p class="cert-issuer">Exodus Experts</p>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-icon">🤖</div>
-        <div>
-          <p class="cert-name">Introduction to Data Science</p>
-          <p class="cert-issuer">MyGreatLearning</p>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-icon">🏆</div>
-        <div>
-          <p class="cert-name">First-Class Honours · Dean's List</p>
-          <p class="cert-issuer">BSc Computer Science, Lincoln University</p>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-icon">📄</div>
-        <div>
-          <p class="cert-name">3 Peer-Reviewed Research Papers</p>
-          <p class="cert-issuer">IT & Cybersecurity</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="contact-box">
-      <p class="section-label" style="justify-content: center; margin-bottom: 20px;">Let's connect</p>
-      <h2 class="contact-title">Open to opportunities<br>& collaboration</h2>
-      <p class="contact-sub">Whether it's a project, a question, or just a conversation — reach out.</p>
-      <div class="contact-links">
-        <a href="mailto:thesnath97@gmail.com" class="btn btn-primary">thesnath97@gmail.com ↗</a>
-        <a href="https://github.com/thesnath" class="btn btn-ghost" target="_blank">GitHub ↗</a>
-        <a href="https://www.linkedin.com/in/thesnath-velayudhan-a7a941255/" class="btn btn-ghost" target="_blank">LinkedIn ↗</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    Built by Thesnath Velayudhan · 2025 · Petaling Jaya, Malaysia
-  </div>
-</footer>
+    </footer>
 
 </body>
 </html>
